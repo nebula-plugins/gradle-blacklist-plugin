@@ -1,0 +1,20 @@
+buildscript {
+    repositories { jcenter() }
+    dependencies { classpath 'com.netflix.nebula:nebula-plugin-plugin:1.12.+' }
+}
+
+description 'Gradle plugin for providing rules for dependency resolution correction'
+apply plugin: 'nebula-plugin'
+apply plugin: 'idea'
+
+contacts {
+    'benjamin.muschko@gmail.com' {
+        moniker 'Benjamin Muschko'
+        github 'bmuschko'
+    }
+}
+
+dependencies {
+    testCompile 'com.netflix.nebula:nebula-test:1.12.+'
+    testCompile 'org.apache.commons:commons-lang3:3.3.2'
+}
