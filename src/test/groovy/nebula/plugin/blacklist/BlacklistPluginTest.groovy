@@ -17,7 +17,7 @@ package nebula.plugin.blacklist
 
 import nebula.test.PluginProjectSpec
 
-class BlacklistPluginSpec extends PluginProjectSpec {
+class BlacklistPluginTest extends PluginProjectSpec {
     @Override
     String getPluginName() {
         'blacklist'
