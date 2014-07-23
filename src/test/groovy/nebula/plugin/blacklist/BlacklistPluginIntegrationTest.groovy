@@ -71,6 +71,30 @@ dependencies {
         rootCause.message == "Dependency coordinates cannot be null or empty String"
     }
 
+    def "Throws exception if change mapping uses invalid String attributes"() {
+        when:
+        buildFile << """
+apply plugin: 'blacklist'
+
+blacklist {
+    map('my.group', 'some.other.group:changed:5.5:sources')
+}
+
+configurations {
+    myConf
+}
+
+dependencies {
+    myConf 'com.company:important:1.0'
+}
+"""
+        ExecutionResult result = runTasksWithFailure('dependencies')
+
+        then:
+        Throwable rootCause = ExceptionUtils.getRootCause(result.failure)
+        rootCause.message == "Dependency coordinates require the following format <group>:<name>:<version>"
+    }
+
     def "Throws exception if change mapping uses incorrect Map attributes"() {
         when:
         buildFile << """
