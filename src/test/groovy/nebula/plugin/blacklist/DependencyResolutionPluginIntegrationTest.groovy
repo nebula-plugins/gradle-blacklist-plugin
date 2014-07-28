@@ -20,14 +20,16 @@ import nebula.test.functional.ExecutionResult
 import org.apache.commons.lang.exception.ExceptionUtils
 import spock.lang.Unroll
 
-class BlacklistPluginIntegrationTest extends IntegrationSpec {
+class DependencyResolutionPluginIntegrationTest extends IntegrationSpec {
     def "Declares change mapping but it doesn't match any dependency"() {
         when:
         buildFile << """
 apply plugin: 'blacklist'
 
-blacklist {
-    map('my.group', 'some.other.group')
+dependencyResolution {
+    translate {
+        map('my.group', 'some.other.group')
+    }
 }
 
 configurations {
@@ -52,8 +54,10 @@ myConf
         buildFile << """
 apply plugin: 'blacklist'
 
-blacklist {
-    map('', '')
+dependencyResolution {
+    translate {
+        map('', '')
+    }
 }
 
 configurations {
@@ -76,8 +80,10 @@ dependencies {
         buildFile << """
 apply plugin: 'blacklist'
 
-blacklist {
-    map('my.group', 'some.other.group:changed:5.5:sources')
+dependencyResolution {
+    translate {
+        map('my.group', 'some.other.group:changed:5.5:sources')
+    }
 }
 
 configurations {
@@ -103,8 +109,10 @@ apply plugin: 'blacklist'
 ext.sourceCoordinates = [unknownAttribute: '1'] as Map<String, String>
 ext.targetCoordinates = [some: 'attribute'] as Map<String, String>
 
-blacklist {
-    map(sourceCoordinates, targetCoordinates)
+dependencyResolution {
+    translate {
+        map(sourceCoordinates, targetCoordinates)
+    }
 }
 
 configurations {
@@ -128,8 +136,10 @@ dependencies {
         buildFile << """
 apply plugin: 'blacklist'
 
-blacklist {
-    map('$sourceCoordinates', '$targetCoordinates')
+dependencyResolution {
+    translate {
+        map('$sourceCoordinates', '$targetCoordinates')
+    }
 }
 
 configurations {
@@ -164,8 +174,10 @@ apply plugin: 'blacklist'
 ext.sourceCoordinates = [$sourceCoordinates] as Map<String, String>
 ext.targetCoordinates = [$targetCoordinates] as Map<String, String>
 
-blacklist {
-    map(sourceCoordinates, targetCoordinates)
+dependencyResolution {
+    translate {
+        map(sourceCoordinates, targetCoordinates)
+    }
 }
 
 configurations {

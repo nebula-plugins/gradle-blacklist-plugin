@@ -17,7 +17,7 @@ package nebula.plugin.blacklist
 
 import nebula.test.PluginProjectSpec
 
-class BlacklistPluginTest extends PluginProjectSpec {
+class DependencyResolutionPluginTest extends PluginProjectSpec {
     @Override
     String getPluginName() {
         'blacklist'
@@ -27,7 +27,7 @@ class BlacklistPluginTest extends PluginProjectSpec {
         when:
         project.apply plugin: pluginName
 
-        project.blacklist {}
+        project.dependencyResolution {}
 
         then:
         noExceptionThrown()

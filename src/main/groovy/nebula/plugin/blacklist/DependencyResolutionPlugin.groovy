@@ -21,19 +21,19 @@ import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.DependencyResolveDetails
 import org.gradle.api.artifacts.ResolutionStrategy
 
-class BlacklistPlugin implements Plugin<Project> {
-    static final String EXTENSION_NAME = 'blacklist'
+class DependencyResolutionPlugin implements Plugin<Project> {
+    static final String EXTENSION_NAME = 'dependencyResolution'
 
     @Override
     void apply(Project project) {
-        BlacklistExtension extension = project.extensions.create(EXTENSION_NAME, BlacklistExtension)
+        DependencyResolutionExtension extension = project.extensions.create(EXTENSION_NAME, DependencyResolutionExtension)
 
         project.afterEvaluate {
             changeDependencyCoordinates(project, extension)
         }
     }
 
-    private void changeDependencyCoordinates(Project project, BlacklistExtension extension) {
+    private void changeDependencyCoordinates(Project project, DependencyResolutionExtension extension) {
         project.configurations.all { Configuration configuration ->
             configuration.resolutionStrategy { ResolutionStrategy resolutionStrategy ->
                 resolutionStrategy.eachDependency { DependencyResolveDetails details ->
@@ -43,11 +43,11 @@ class BlacklistPlugin implements Plugin<Project> {
         }
     }
 
-    private void useTargetIfMatching(BlacklistExtension extension, DependencyResolveDetails details) {
-        DependencyCoordinates sourceDependencyCoordinates = extension.changingCoordinatesMapping.getMapping(details.requested.group)
+    private void useTargetIfMatching(DependencyResolutionExtension extension, DependencyResolveDetails details) {
+        DependencyCoordinates sourceDependencyCoordinates = extension.translation.changingCoordinatesMapping.getMapping(details.requested.group)
 
         if(sourceDependencyCoordinates) {
-            DependencyCoordinates targetDependencyCoordinates = extension.changingCoordinatesMapping.getMapping(sourceDependencyCoordinates)
+            DependencyCoordinates targetDependencyCoordinates = extension.translation.changingCoordinatesMapping.getMapping(sourceDependencyCoordinates)
             Map<String, String> modifiedCoordinates = modifyTargetCoordinates(details, targetDependencyCoordinates)
             details.useTarget modifiedCoordinates
         }
