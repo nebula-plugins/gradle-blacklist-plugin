@@ -13,23 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.blacklist
+package nebula.plugin.depres
 
-import nebula.test.PluginProjectSpec
-
-class DependencyResolutionPluginTest extends PluginProjectSpec {
-    @Override
-    String getPluginName() {
-        'blacklist'
-    }
-
-    def "Can use extension but not declare any rules"() {
-        when:
-        project.apply plugin: pluginName
-
-        project.dependencyResolution {}
-
-        then:
-        noExceptionThrown()
-    }
+interface DependencyCoordinatesCreator {
+    DependencyCoordinates create(String coordinates)
+    DependencyCoordinates create(Map<String, String> coordinates)
 }

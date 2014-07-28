@@ -13,12 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.blacklist
+package nebula.plugin.depres
 
-class MandatoryDependencyCoordinates extends DependencyCoordinates {
-    MandatoryDependencyCoordinates(String group, String name, String version) {
-        super(group, name, version)
-        assert name != null, 'Name attribute may not be null'
-        assert version != null, 'Version attribute may not be null'
+import nebula.test.PluginProjectSpec
+
+class DependencyResolutionPluginTest extends PluginProjectSpec {
+    @Override
+    String getPluginName() {
+        'dependency-resolution'
+    }
+
+    def "Can use extension but not declare any rules"() {
+        when:
+        project.apply plugin: pluginName
+
+        project.dependencyResolution {}
+
+        then:
+        noExceptionThrown()
     }
 }

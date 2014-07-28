@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.blacklist
+package nebula.plugin.depres
 
 import nebula.test.IntegrationSpec
 import nebula.test.functional.ExecutionResult
@@ -21,7 +21,7 @@ import nebula.test.functional.ExecutionResult
 class DependencyBundleIntegrationTest extends IntegrationSpec {
     def setup() {
         buildFile << """
-apply plugin: 'blacklist'
+apply plugin: 'dependency-resolution'
 
 configurations {
     myConf

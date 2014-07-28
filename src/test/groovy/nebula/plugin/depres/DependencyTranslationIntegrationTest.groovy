@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.blacklist
+package nebula.plugin.depres
 
 import nebula.test.IntegrationSpec
 import nebula.test.functional.ExecutionResult
@@ -24,7 +24,7 @@ class DependencyTranslationIntegrationTest extends IntegrationSpec {
     def "Declares change mapping but it doesn't match any dependency"() {
         when:
         buildFile << """
-apply plugin: 'blacklist'
+apply plugin: 'dependency-resolution'
 
 dependencyResolution {
     translate {
@@ -52,7 +52,7 @@ myConf
     def "Throws exception if change mapping uses empty String attributes"() {
         when:
         buildFile << """
-apply plugin: 'blacklist'
+apply plugin: 'dependency-resolution'
 
 dependencyResolution {
     translate {
@@ -78,7 +78,7 @@ dependencies {
     def "Throws exception if change mapping uses invalid String attributes"() {
         when:
         buildFile << """
-apply plugin: 'blacklist'
+apply plugin: 'dependency-resolution'
 
 dependencyResolution {
     translate {
@@ -104,7 +104,7 @@ dependencies {
     def "Throws exception if change mapping uses incorrect Map attributes"() {
         when:
         buildFile << """
-apply plugin: 'blacklist'
+apply plugin: 'dependency-resolution'
 
 ext.sourceCoordinates = [unknownAttribute: '1'] as Map<String, String>
 ext.targetCoordinates = [some: 'attribute'] as Map<String, String>
@@ -134,7 +134,7 @@ dependencies {
     def "Declares change mapping for matching String coordinates ('#targetCoordinates')"() {
         when:
         buildFile << """
-apply plugin: 'blacklist'
+apply plugin: 'dependency-resolution'
 
 dependencyResolution {
     translate {
@@ -169,7 +169,7 @@ myConf
     def "Declares change mapping for matching Map coordinates ('#targetCoordinates')"() {
         when:
         buildFile << """
-apply plugin: 'blacklist'
+apply plugin: 'dependency-resolution'
 
 ext.sourceCoordinates = [$sourceCoordinates] as Map<String, String>
 ext.targetCoordinates = [$targetCoordinates] as Map<String, String>

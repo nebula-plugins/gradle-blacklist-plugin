@@ -1,4 +1,4 @@
-package nebula.plugin.blacklist
+package nebula.plugin.depres
 
 import spock.lang.Specification
 import spock.lang.Unroll

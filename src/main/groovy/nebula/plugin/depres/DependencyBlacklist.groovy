@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.blacklist
+package nebula.plugin.depres
 
 class DependencyBlacklist {
     private final Set<DependencyCoordinates> suppressed = new HashSet<DependencyCoordinates>()

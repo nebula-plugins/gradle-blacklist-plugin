@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.blacklist
+package nebula.plugin.depres
 
 class DependencyMapping {
     private final Map<DependencyCoordinates, DependencyCoordinates> mappings = new HashMap<DependencyCoordinates, DependencyCoordinates>()
