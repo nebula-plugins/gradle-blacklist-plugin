@@ -13,12 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres.data
+package nebula.plugin.dependencyresolution
 
-class MandatoryDependencyCoordinates extends DependencyCoordinates {
-    MandatoryDependencyCoordinates(String group, String name, String version) {
-        super(group, name, version)
-        assert name != null, 'Name attribute may not be null'
-        assert version != null, 'Version attribute may not be null'
+import nebula.test.IntegrationSpec
+
+class DependencyResolutionIntegrationSpec extends IntegrationSpec {
+    def setup() {
+        buildFile << """
+apply plugin: 'dependency-resolution'
+
+configurations {
+    myConf
+}
+
+dependencies {
+    myConf 'com.company:important:1.0'
+}
+"""
     }
 }

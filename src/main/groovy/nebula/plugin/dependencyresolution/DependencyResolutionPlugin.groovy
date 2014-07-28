@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres
+package nebula.plugin.dependencyresolution
 
-import nebula.plugin.depres.data.DependencyCoordinates
-import nebula.plugin.depres.exception.BlacklistedDependencyDeclarationException
-import nebula.plugin.depres.extension.DependencyResolutionExtension
+import nebula.plugin.dependencyresolution.data.DependencyCoordinates
+import nebula.plugin.dependencyresolution.exception.BlacklistedDependencyDeclarationException
+import nebula.plugin.dependencyresolution.extension.DependencyResolutionExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration

@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres.extension
+package nebula.plugin.dependencyresolution.extension
 
-import nebula.plugin.depres.data.DependencyCoordinates
-import nebula.plugin.depres.data.DependencyCoordinatesCreator
-import nebula.plugin.depres.data.DependencyCoordinatesCreatorImpl
+import nebula.plugin.dependencyresolution.data.DependencyCoordinates
+import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreator
+import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreatorImpl
 
 class DependencyBlacklist {
     private final Set<DependencyCoordinates> suppressed = new HashSet<DependencyCoordinates>()

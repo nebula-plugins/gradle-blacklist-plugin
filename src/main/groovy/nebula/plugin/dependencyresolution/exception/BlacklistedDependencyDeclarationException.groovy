@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres.exception
+package nebula.plugin.dependencyresolution.exception
 
 import org.gradle.api.GradleException
 
-class InvalidDependencyDeclarationException extends GradleException {
-    InvalidDependencyDeclarationException(String s) {
+class BlacklistedDependencyDeclarationException extends GradleException {
+    BlacklistedDependencyDeclarationException(String s) {
         super(s)
     }
 }

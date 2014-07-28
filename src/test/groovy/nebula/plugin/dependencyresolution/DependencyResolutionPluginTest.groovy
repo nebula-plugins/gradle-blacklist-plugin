@@ -13,12 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres.exception
+package nebula.plugin.dependencyresolution
 
-import org.gradle.api.GradleException
+import nebula.test.PluginProjectSpec
 
-class BlacklistedDependencyDeclarationException extends GradleException {
-    BlacklistedDependencyDeclarationException(String s) {
-        super(s)
+class DependencyResolutionPluginTest extends PluginProjectSpec {
+    @Override
+    String getPluginName() {
+        'dependency-resolution'
+    }
+
+    def "Can use extension but not declare any rules"() {
+        when:
+        project.apply plugin: pluginName
+
+        project.dependencyResolution {}
+
+        then:
+        noExceptionThrown()
     }
 }

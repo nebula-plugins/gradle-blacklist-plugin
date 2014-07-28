@@ -13,22 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres
+package nebula.plugin.dependencyresolution.data
 
-import nebula.test.IntegrationSpec
-
-class DependencyResolutionIntegrationSpec extends IntegrationSpec {
-    def setup() {
-        buildFile << """
-apply plugin: 'dependency-resolution'
-
-configurations {
-    myConf
-}
-
-dependencies {
-    myConf 'com.company:important:1.0'
-}
-"""
-    }
+interface DependencyCoordinatesCreator {
+    DependencyCoordinates create(String coordinates)
+    DependencyCoordinates create(Map<String, String> coordinates)
 }
