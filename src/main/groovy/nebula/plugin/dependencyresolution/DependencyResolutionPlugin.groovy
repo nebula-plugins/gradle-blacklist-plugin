@@ -40,7 +40,7 @@ class DependencyResolutionPlugin implements Plugin<Project> {
     }
 
     private void changeDependencyCoordinates(Project project, DependencyResolutionExtension extension) {
-        if(extension.translation.changingCoordinatesMapping.hasMappings()) {
+        if(extension.translation.hasMappings()) {
             project.configurations.all { Configuration configuration ->
                 configuration.resolutionStrategy { ResolutionStrategy resolutionStrategy ->
                     resolutionStrategy.eachDependency { DependencyResolveDetails details ->
@@ -52,10 +52,10 @@ class DependencyResolutionPlugin implements Plugin<Project> {
     }
 
     private void useTargetIfMatching(DependencyResolutionExtension extension, DependencyResolveDetails details) {
-        DependencyCoordinates sourceDependencyCoordinates = extension.translation.changingCoordinatesMapping.getMapping(details.requested.group)
+        DependencyCoordinates sourceDependencyCoordinates = extension.translation.getMapping(details.requested.group)
 
         if(sourceDependencyCoordinates) {
-            DependencyCoordinates targetDependencyCoordinates = extension.translation.changingCoordinatesMapping.getMapping(sourceDependencyCoordinates)
+            DependencyCoordinates targetDependencyCoordinates = extension.translation.getMapping(sourceDependencyCoordinates)
             Map<String, String> modifiedCoordinates = modifyTargetCoordinates(details, targetDependencyCoordinates)
             details.useTarget modifiedCoordinates
         }

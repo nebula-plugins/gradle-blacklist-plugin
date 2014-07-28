@@ -18,21 +18,36 @@ package nebula.plugin.dependencyresolution.extension
 import nebula.plugin.dependencyresolution.data.DependencyCoordinates
 import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreator
 import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreatorImpl
-import nebula.plugin.dependencyresolution.data.DependencyMapping
 
 class DependencyTranslation {
-    private final DependencyMapping changingCoordinatesMapping = new DependencyMapping()
+    private final Map<DependencyCoordinates, DependencyCoordinates> changingCoordinatesMapping = new HashMap<DependencyCoordinates, DependencyCoordinates>()
     private final DependencyCoordinatesCreator dependencyCoordinatesCreator = new DependencyCoordinatesCreatorImpl()
 
     void map(String sourceCoordinates, String targetCoordinates) {
         DependencyCoordinates sourceDependencyCoordinates = dependencyCoordinatesCreator.create(sourceCoordinates)
         DependencyCoordinates targetDependencyCoordinates = dependencyCoordinatesCreator.create(targetCoordinates)
-        changingCoordinatesMapping.addMapping(sourceDependencyCoordinates, targetDependencyCoordinates)
+        addMapping(sourceDependencyCoordinates, targetDependencyCoordinates)
     }
 
     void map(Map<String, String> sourceCoordinates, Map<String, String> targetCoordinates) {
         DependencyCoordinates sourceDependencyCoordinates = dependencyCoordinatesCreator.create(sourceCoordinates)
         DependencyCoordinates targetDependencyCoordinates = dependencyCoordinatesCreator.create(targetCoordinates)
-        changingCoordinatesMapping.addMapping(sourceDependencyCoordinates, targetDependencyCoordinates)
+        addMapping(sourceDependencyCoordinates, targetDependencyCoordinates)
+    }
+
+    private void addMapping(DependencyCoordinates source, DependencyCoordinates target) {
+        changingCoordinatesMapping[source] = target
+    }
+
+    DependencyCoordinates getMapping(String sourceGroup) {
+        changingCoordinatesMapping.keySet().find { it.group == sourceGroup }
+    }
+
+    DependencyCoordinates getMapping(DependencyCoordinates source) {
+        changingCoordinatesMapping[source]
+    }
+
+    boolean hasMappings() {
+        !changingCoordinatesMapping.isEmpty()
     }
 }
