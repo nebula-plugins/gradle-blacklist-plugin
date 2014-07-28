@@ -15,24 +15,9 @@
  */
 package nebula.plugin.depres
 
-import nebula.test.IntegrationSpec
 import nebula.test.functional.ExecutionResult
 
-class DependencyBundleIntegrationTest extends IntegrationSpec {
-    def setup() {
-        buildFile << """
-apply plugin: 'dependency-resolution'
-
-configurations {
-    myConf
-}
-
-dependencies {
-    myConf 'com.company:important:1.0'
-}
-"""
-    }
-
+class DependencyBundleIntegrationTest extends DependencyResolutionIntegrationSpec {
     def "Declares bundle but it doesn't match any dependency"() {
         when:
         buildFile << """

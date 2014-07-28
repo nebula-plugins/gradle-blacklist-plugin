@@ -15,25 +15,10 @@
  */
 package nebula.plugin.depres
 
-import nebula.test.IntegrationSpec
 import nebula.test.functional.ExecutionResult
 import org.apache.commons.lang.exception.ExceptionUtils
 
-class DependencyBlacklistIntegrationTest extends IntegrationSpec {
-    def setup() {
-        buildFile << """
-apply plugin: 'dependency-resolution'
-
-configurations {
-    myConf
-}
-
-dependencies {
-    myConf 'com.company:important:1.0'
-}
-"""
-    }
-
+class DependencyBlacklistIntegrationTest extends DependencyResolutionIntegrationSpec {
     def "Declares suppressed dependency but it doesn't match any dependency"() {
         when:
         buildFile << """
