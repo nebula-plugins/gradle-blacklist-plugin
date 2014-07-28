@@ -21,16 +21,9 @@ import org.apache.commons.lang.exception.ExceptionUtils
 import spock.lang.Unroll
 
 class DependencyTranslationIntegrationTest extends IntegrationSpec {
-    def "Declares change mapping but it doesn't match any dependency"() {
-        when:
+    def setup() {
         buildFile << """
 apply plugin: 'dependency-resolution'
-
-dependencyResolution {
-    translate {
-        map('my.group', 'some.other.group')
-    }
-}
 
 configurations {
     myConf
@@ -38,6 +31,17 @@ configurations {
 
 dependencies {
     myConf 'com.company:important:1.0'
+}
+"""
+    }
+
+    def "Declares change mapping but it doesn't match any dependency"() {
+        when:
+        buildFile << """
+dependencyResolution {
+    translate {
+        map('my.group', 'some.other.group')
+    }
 }
 """
         ExecutionResult result = runTasksSuccessfully('dependencies')
@@ -52,20 +56,10 @@ myConf
     def "Throws exception if change mapping uses empty String attributes"() {
         when:
         buildFile << """
-apply plugin: 'dependency-resolution'
-
 dependencyResolution {
     translate {
         map('', '')
     }
-}
-
-configurations {
-    myConf
-}
-
-dependencies {
-    myConf 'com.company:important:1.0'
 }
 """
         ExecutionResult result = runTasksWithFailure('dependencies')
@@ -78,20 +72,10 @@ dependencies {
     def "Throws exception if change mapping uses invalid String attributes"() {
         when:
         buildFile << """
-apply plugin: 'dependency-resolution'
-
 dependencyResolution {
     translate {
         map('my.group', 'some.other.group:changed:5.5:sources')
     }
-}
-
-configurations {
-    myConf
-}
-
-dependencies {
-    myConf 'com.company:important:1.0'
 }
 """
         ExecutionResult result = runTasksWithFailure('dependencies')
@@ -104,8 +88,6 @@ dependencies {
     def "Throws exception if change mapping uses incorrect Map attributes"() {
         when:
         buildFile << """
-apply plugin: 'dependency-resolution'
-
 ext.sourceCoordinates = [unknownAttribute: '1'] as Map<String, String>
 ext.targetCoordinates = [some: 'attribute'] as Map<String, String>
 
@@ -113,14 +95,6 @@ dependencyResolution {
     translate {
         map(sourceCoordinates, targetCoordinates)
     }
-}
-
-configurations {
-    myConf
-}
-
-dependencies {
-    myConf 'com.company:important:1.0'
 }
 """
         ExecutionResult result = runTasksWithFailure('dependencies')
@@ -134,20 +108,10 @@ dependencies {
     def "Declares change mapping for matching String coordinates ('#targetCoordinates')"() {
         when:
         buildFile << """
-apply plugin: 'dependency-resolution'
-
 dependencyResolution {
     translate {
         map('$sourceCoordinates', '$targetCoordinates')
     }
-}
-
-configurations {
-    myConf
-}
-
-dependencies {
-    myConf 'com.company:important:1.0'
 }
 """
         ExecutionResult result = runTasksSuccessfully('dependencies')
@@ -169,8 +133,6 @@ myConf
     def "Declares change mapping for matching Map coordinates ('#targetCoordinates')"() {
         when:
         buildFile << """
-apply plugin: 'dependency-resolution'
-
 ext.sourceCoordinates = [$sourceCoordinates] as Map<String, String>
 ext.targetCoordinates = [$targetCoordinates] as Map<String, String>
 
@@ -178,14 +140,6 @@ dependencyResolution {
     translate {
         map(sourceCoordinates, targetCoordinates)
     }
-}
-
-configurations {
-    myConf
-}
-
-dependencies {
-    myConf 'com.company:important:1.0'
 }
 """
         ExecutionResult result = runTasksSuccessfully('dependencies')
