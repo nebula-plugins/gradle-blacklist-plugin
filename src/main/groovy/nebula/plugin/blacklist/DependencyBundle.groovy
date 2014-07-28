@@ -16,5 +16,34 @@
 package nebula.plugin.blacklist
 
 class DependencyBundle {
+    private final Map<DependencyCoordinates, Set<DependencyCoordinates>> components = new HashMap<DependencyCoordinates, Set<DependencyCoordinates>>()
+    private final DependencyCoordinatesCreator dependencyCoordinatesCreator = new DependencyCoordinatesCreatorImpl()
 
+    void describe(String source, Collection componentCoordinates) {
+        DependencyCoordinates sourceCoordinates = dependencyCoordinatesCreator.create(source)
+
+        componentCoordinates.each { coordinates ->
+            addComponent(sourceCoordinates, dependencyCoordinatesCreator.create(coordinates))
+        }
+    }
+
+    void addComponent(DependencyCoordinates source, DependencyCoordinates target) {
+        if(!components.containsKey(source)) {
+            components[source] = [target] as Set
+        }
+
+        components[source] << target
+    }
+
+    Set<DependencyCoordinates> getComponents(String sourceGroup) {
+        components.keySet().find { it.group == sourceGroup }
+    }
+
+    Set<DependencyCoordinates> getComponents(DependencyCoordinates source) {
+        components[source]
+    }
+
+    boolean hasMappings() {
+        !components.isEmpty()
+    }
 }

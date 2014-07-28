@@ -33,4 +33,8 @@ class DependencyMapping {
     DependencyCoordinates getMapping(DependencyCoordinates source) {
         mappings[source]
     }
+
+    boolean hasMappings() {
+        !mappings.isEmpty()
+    }
 }

@@ -32,14 +32,17 @@ class DependencyResolutionPlugin implements Plugin<Project> {
         project.afterEvaluate {
             changeDependencyCoordinates(project, extension)
             backlistDependencies(project, extension)
+            describeBundles(project, extension)
         }
     }
 
     private void changeDependencyCoordinates(Project project, DependencyResolutionExtension extension) {
-        project.configurations.all { Configuration configuration ->
-            configuration.resolutionStrategy { ResolutionStrategy resolutionStrategy ->
-                resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-                    useTargetIfMatching(extension, details)
+        if(extension.translation.changingCoordinatesMapping.hasMappings()) {
+            project.configurations.all { Configuration configuration ->
+                configuration.resolutionStrategy { ResolutionStrategy resolutionStrategy ->
+                    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                        useTargetIfMatching(extension, details)
+                    }
                 }
             }
         }
@@ -64,17 +67,26 @@ class DependencyResolutionPlugin implements Plugin<Project> {
     }
 
     private void backlistDependencies(Project project, DependencyResolutionExtension extension) {
-        project.configurations.all { Configuration configuration ->
-            configuration.dependencies.findAll { it instanceof ExternalModuleDependency }.each { dependency ->
-                DependencyCoordinates dependencyCoordinates = new DependencyCoordinates(dependency.group, dependency.name, dependency.version)
+        if(extension.blacklist.hasMappings()) {
+            project.configurations.all { Configuration configuration ->
+                def externalDependencies = configuration.dependencies.findAll { it instanceof ExternalModuleDependency }
 
-                if(extension.blacklist.containsSuppressed(dependencyCoordinates)) {
-                    throw new BlacklistedDependencyDeclarationException("Dependency '$dependencyCoordinates' is blacklisted. Please pick different coordinates.")
-                }
-                else if(extension.blacklist.containsWarned(dependencyCoordinates)) {
-                    project.logger.warn "Dependency '$dependencyCoordinates' is flagged as potential issue. It might get blacklisted in the future."
+                externalDependencies.each { dependency ->
+                    DependencyCoordinates dependencyCoordinates = new DependencyCoordinates(dependency.group, dependency.name, dependency.version)
+
+                    if (extension.blacklist.containsSuppressed(dependencyCoordinates)) {
+                        throw new BlacklistedDependencyDeclarationException("Dependency '$dependencyCoordinates' is blacklisted. Please pick different coordinates.")
+                    } else if (extension.blacklist.containsWarned(dependencyCoordinates)) {
+                        project.logger.warn "Dependency '$dependencyCoordinates' is flagged as potential issue. It might get blacklisted in the future."
+                    }
                 }
             }
+        }
+    }
+
+    private void describeBundles(Project project, DependencyResolutionExtension extension) {
+        if(extension.bundle.hasMappings()) {
+
         }
     }
 }

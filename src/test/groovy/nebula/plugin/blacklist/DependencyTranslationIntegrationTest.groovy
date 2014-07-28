@@ -72,7 +72,7 @@ dependencies {
 
         then:
         Throwable rootCause = ExceptionUtils.getRootCause(result.failure)
-        rootCause.message == "Dependency coordinates cannot be null or empty String"
+        rootCause.message == "Dependency coordinates cannot be empty String"
     }
 
     def "Throws exception if change mapping uses invalid String attributes"() {

@@ -43,4 +43,8 @@ class DependencyBlacklist {
     boolean containsWarned(DependencyCoordinates target) {
         warned.contains(target)
     }
+
+    boolean hasMappings() {
+        !suppressed.isEmpty() || !warned.isEmpty()
+    }
 }
