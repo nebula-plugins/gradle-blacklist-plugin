@@ -19,6 +19,7 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
 import org.gradle.api.artifacts.DependencyResolveDetails
+import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.ResolutionStrategy
 
 class DependencyResolutionPlugin implements Plugin<Project> {
@@ -30,6 +31,7 @@ class DependencyResolutionPlugin implements Plugin<Project> {
 
         project.afterEvaluate {
             changeDependencyCoordinates(project, extension)
+            backlistDependencies(project, extension)
         }
     }
 
@@ -59,5 +61,17 @@ class DependencyResolutionPlugin implements Plugin<Project> {
         modifiedCoordinates[DependencyCoordinates.Notation.NAME.attribute] = targetDependencyCoordinates.name ?: details.requested.name
         modifiedCoordinates[DependencyCoordinates.Notation.VERSION.attribute] = targetDependencyCoordinates.version ?: details.requested.version
         modifiedCoordinates
+    }
+
+    private void backlistDependencies(Project project, DependencyResolutionExtension extension) {
+        project.configurations.all { Configuration configuration ->
+            configuration.dependencies.findAll { it instanceof ExternalModuleDependency }.each { dependency ->
+                DependencyCoordinates dependencyCoordinates = new DependencyCoordinates(dependency.group, dependency.name, dependency.version)
+
+                if(extension.blacklist.containsSuppressed(dependencyCoordinates)) {
+                    throw new BlacklistedDependencyDeclarationException("Dependency '$dependencyCoordinates' is blacklisted. Please pick different coordinates.")
+                }
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ import nebula.test.functional.ExecutionResult
 import org.apache.commons.lang.exception.ExceptionUtils
 import spock.lang.Unroll
 
-class DependencyResolutionPluginIntegrationTest extends IntegrationSpec {
+class DependencyTranslationIntegrationTest extends IntegrationSpec {
     def "Declares change mapping but it doesn't match any dependency"() {
         when:
         buildFile << """
