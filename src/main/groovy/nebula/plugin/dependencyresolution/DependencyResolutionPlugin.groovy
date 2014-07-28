@@ -96,10 +96,12 @@ class DependencyResolutionPlugin implements Plugin<Project> {
                     }
 
                     if(foundDependency) {
-                        configuration.dependencies.remove(foundDependency)
+                        boolean success = configuration.dependencies.remove(foundDependency)
 
-                        targets.each { DependencyCoordinates target ->
-                            project.dependencies.add(configuration.name, target.toString())
+                        if(success) {
+                            targets.each { DependencyCoordinates target ->
+                                project.dependencies.add(configuration.name, target.toString())
+                            }
                         }
                     }
                 }
