@@ -17,6 +17,7 @@ package nebula.plugin.blacklist
 
 class DependencyBlacklist {
     private final Set<DependencyCoordinates> suppressed = new HashSet<DependencyCoordinates>()
+    private final Set<DependencyCoordinates> warned = new HashSet<DependencyCoordinates>()
     private final DependencyCoordinatesCreator dependencyCoordinatesCreator = new DependencyCoordinatesCreatorImpl()
 
     void suppress(String coordinates) {
@@ -29,5 +30,17 @@ class DependencyBlacklist {
 
     boolean containsSuppressed(DependencyCoordinates target) {
         suppressed.contains(target)
+    }
+
+    void warn(String coordinates) {
+        warned << dependencyCoordinatesCreator.create(coordinates)
+    }
+
+    void warn(Map<String, String> coordinates) {
+        warned << dependencyCoordinatesCreator.create(coordinates)
+    }
+
+    boolean containsWarned(DependencyCoordinates target) {
+        warned.contains(target)
     }
 }

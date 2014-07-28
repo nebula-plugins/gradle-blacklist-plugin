@@ -71,6 +71,9 @@ class DependencyResolutionPlugin implements Plugin<Project> {
                 if(extension.blacklist.containsSuppressed(dependencyCoordinates)) {
                     throw new BlacklistedDependencyDeclarationException("Dependency '$dependencyCoordinates' is blacklisted. Please pick different coordinates.")
                 }
+                else if(extension.blacklist.containsWarned(dependencyCoordinates)) {
+                    project.logger.warn "Dependency '$dependencyCoordinates' is flagged as potential issue. It might get blacklisted in the future."
+                }
             }
         }
     }
