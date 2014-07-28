@@ -15,17 +15,15 @@
  */
 package nebula.plugin.blacklist
 
-import org.gradle.util.ConfigureUtil
+class DependencyBlacklist {
+    private final Set<DependencyCoordinates> suppressed = Collections.emptySet()
+    private final DependencyCoordinatesCreator dependencyCoordinatesCreator = new DependencyCoordinatesCreatorImpl()
 
-class DependencyResolutionExtension {
-    DependencyTranslation translation = new DependencyTranslation()
-    DependencyBlacklist blacklist = new DependencyBlacklist()
-
-    void translate(Closure closure) {
-        ConfigureUtil.configure(closure, translation)
+    void suppressed(String coordinates) {
+        suppressed << dependencyCoordinatesCreator.create(coordinates)
     }
 
-    void blacklist(Closure closure) {
-        ConfigureUtil.configure(closure, blacklist)
+    void suppressed(Map<String, String> coordinates) {
+        suppressed << dependencyCoordinatesCreator.create(coordinates)
     }
 }
