@@ -19,7 +19,7 @@ class DependencyCoordinatesCreatorImpl implements DependencyCoordinatesCreator {
     @Override
     DependencyCoordinates create(String coordinates) {
         if(!coordinates) {
-            throw new InvalidDependencyDeclarationException('Dependency coordinates cannot be null or empty String')
+            throw new InvalidDependencyDeclarationException('Dependency coordinates cannot be empty String')
         }
 
         String[] attributes = coordinates.split(':')
@@ -39,6 +39,10 @@ class DependencyCoordinatesCreatorImpl implements DependencyCoordinatesCreator {
 
     @Override
     DependencyCoordinates create(Map<String, String> coordinates) {
+        if(!coordinates) {
+            throw new InvalidDependencyDeclarationException('Dependency coordinates cannot be null')
+        }
+
         if(!DependencyCoordinates.Notation.allAttributes.containsAll(coordinates.keySet())) {
             throw new InvalidDependencyDeclarationException("Dependency coordinates require at least one of these attributes: 'group', 'name', 'version'")
         }
