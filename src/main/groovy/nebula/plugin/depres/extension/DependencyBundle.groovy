@@ -15,9 +15,9 @@
  */
 package nebula.plugin.depres.extension
 
-import nebula.plugin.depres.DependencyCoordinates
-import nebula.plugin.depres.DependencyCoordinatesCreator
-import nebula.plugin.depres.DependencyCoordinatesCreatorImpl
+import nebula.plugin.depres.data.DependencyCoordinates
+import nebula.plugin.depres.data.DependencyCoordinatesCreator
+import nebula.plugin.depres.data.DependencyCoordinatesCreatorImpl
 
 class DependencyBundle {
     private final Map<DependencyCoordinates, Set<DependencyCoordinates>> components = new HashMap<DependencyCoordinates, Set<DependencyCoordinates>>()

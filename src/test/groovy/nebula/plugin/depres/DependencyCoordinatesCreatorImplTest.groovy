@@ -1,5 +1,9 @@
 package nebula.plugin.depres
 
+import nebula.plugin.depres.data.DependencyCoordinates
+import nebula.plugin.depres.data.DependencyCoordinatesCreator
+import nebula.plugin.depres.data.DependencyCoordinatesCreatorImpl
+import nebula.plugin.depres.exception.InvalidDependencyDeclarationException
 import spock.lang.Specification
 import spock.lang.Unroll
 

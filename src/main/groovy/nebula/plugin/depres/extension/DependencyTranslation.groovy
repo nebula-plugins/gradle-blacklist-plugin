@@ -15,10 +15,10 @@
  */
 package nebula.plugin.depres.extension
 
-import nebula.plugin.depres.DependencyCoordinates
-import nebula.plugin.depres.DependencyCoordinatesCreator
-import nebula.plugin.depres.DependencyCoordinatesCreatorImpl
-import nebula.plugin.depres.DependencyMapping
+import nebula.plugin.depres.data.DependencyCoordinates
+import nebula.plugin.depres.data.DependencyCoordinatesCreator
+import nebula.plugin.depres.data.DependencyCoordinatesCreatorImpl
+import nebula.plugin.depres.data.DependencyMapping
 
 class DependencyTranslation {
     private final DependencyMapping changingCoordinatesMapping = new DependencyMapping()

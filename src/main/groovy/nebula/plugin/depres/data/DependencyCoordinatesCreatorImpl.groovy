@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres
+package nebula.plugin.depres.data
+
+import nebula.plugin.depres.exception.InvalidDependencyDeclarationException
 
 class DependencyCoordinatesCreatorImpl implements DependencyCoordinatesCreator {
     @Override

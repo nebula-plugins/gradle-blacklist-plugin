@@ -15,9 +15,9 @@
  */
 package nebula.plugin.depres.extension
 
-import nebula.plugin.depres.DependencyCoordinates
-import nebula.plugin.depres.DependencyCoordinatesCreator
-import nebula.plugin.depres.DependencyCoordinatesCreatorImpl
+import nebula.plugin.depres.data.DependencyCoordinates
+import nebula.plugin.depres.data.DependencyCoordinatesCreator
+import nebula.plugin.depres.data.DependencyCoordinatesCreatorImpl
 
 class DependencyBlacklist {
     private final Set<DependencyCoordinates> suppressed = new HashSet<DependencyCoordinates>()

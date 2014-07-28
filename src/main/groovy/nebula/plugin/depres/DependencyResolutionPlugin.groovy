@@ -15,6 +15,8 @@
  */
 package nebula.plugin.depres
 
+import nebula.plugin.depres.data.DependencyCoordinates
+import nebula.plugin.depres.exception.BlacklistedDependencyDeclarationException
 import nebula.plugin.depres.extension.DependencyResolutionExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project

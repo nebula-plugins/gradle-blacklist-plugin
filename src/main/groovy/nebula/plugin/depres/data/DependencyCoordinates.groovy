@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres
+package nebula.plugin.depres.data
 
 class DependencyCoordinates {
     final String group
