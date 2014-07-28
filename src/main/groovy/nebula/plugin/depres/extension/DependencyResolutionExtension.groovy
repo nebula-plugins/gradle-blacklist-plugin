@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres
+package nebula.plugin.depres.extension
 
 import org.gradle.util.ConfigureUtil
 

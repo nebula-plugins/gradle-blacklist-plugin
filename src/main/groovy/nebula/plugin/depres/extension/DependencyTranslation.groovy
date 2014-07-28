@@ -13,7 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.depres
+package nebula.plugin.depres.extension
+
+import nebula.plugin.depres.DependencyCoordinates
+import nebula.plugin.depres.DependencyCoordinatesCreator
+import nebula.plugin.depres.DependencyCoordinatesCreatorImpl
+import nebula.plugin.depres.DependencyMapping
 
 class DependencyTranslation {
     private final DependencyMapping changingCoordinatesMapping = new DependencyMapping()
