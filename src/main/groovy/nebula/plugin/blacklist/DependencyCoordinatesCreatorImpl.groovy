@@ -48,7 +48,7 @@ class DependencyCoordinatesCreatorImpl implements DependencyCoordinatesCreator {
         }
 
         new DependencyCoordinates(coordinates[DependencyCoordinates.Notation.GROUP.attribute],
-                coordinates[DependencyCoordinates.Notation.NAME.attribute],
-                coordinates[DependencyCoordinates.Notation.VERSION.attribute])
+                                  coordinates[DependencyCoordinates.Notation.NAME.attribute],
+                                  coordinates[DependencyCoordinates.Notation.VERSION.attribute])
     }
 }
