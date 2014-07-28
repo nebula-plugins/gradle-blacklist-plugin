@@ -91,7 +91,9 @@ class DependencyResolutionPlugin implements Plugin<Project> {
         if(extension.bundle.hasMappings()) {
             extension.bundle.components.each { DependencyCoordinates source, Set<DependencyCoordinates> targets ->
                 project.configurations.all { Configuration configuration ->
-                    def foundDependency = configuration.dependencies.find { source.group == it.group && source.name == it.name && source.version == it.version }
+                    def foundDependency = configuration.dependencies.find {
+                        source.group == it.group && source.name == it.name && source.version == it.version
+                    }
 
                     if(foundDependency) {
                         configuration.dependencies.remove(foundDependency)
