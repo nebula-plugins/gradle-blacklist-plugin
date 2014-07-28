@@ -32,7 +32,7 @@ class DependencyResolutionPlugin implements Plugin<Project> {
         project.afterEvaluate {
             changeDependencyCoordinates(project, extension)
             backlistDependencies(project, extension)
-            describeBundles(project, extension)
+            replaceBundles(project, extension)
         }
     }
 
@@ -84,9 +84,21 @@ class DependencyResolutionPlugin implements Plugin<Project> {
         }
     }
 
-    private void describeBundles(Project project, DependencyResolutionExtension extension) {
+    private void replaceBundles(Project project, DependencyResolutionExtension extension) {
         if(extension.bundle.hasMappings()) {
+            extension.bundle.components.each { DependencyCoordinates source, Set<DependencyCoordinates> targets ->
+                project.configurations.all { Configuration configuration ->
+                    def foundDependency = configuration.dependencies.find { source.group == it.group && source.name == it.name && source.version == it.version }
 
+                    if(foundDependency) {
+                        configuration.dependencies.remove(foundDependency)
+
+                        targets.each { DependencyCoordinates target ->
+                            project.dependencies.add(configuration.name, target.toString())
+                        }
+                    }
+                }
+            }
         }
     }
 }

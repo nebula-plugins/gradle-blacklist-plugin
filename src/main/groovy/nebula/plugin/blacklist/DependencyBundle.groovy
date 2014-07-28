@@ -19,7 +19,7 @@ class DependencyBundle {
     private final Map<DependencyCoordinates, Set<DependencyCoordinates>> components = new HashMap<DependencyCoordinates, Set<DependencyCoordinates>>()
     private final DependencyCoordinatesCreator dependencyCoordinatesCreator = new DependencyCoordinatesCreatorImpl()
 
-    void describe(String source, Collection componentCoordinates) {
+    void replace(String source, Collection componentCoordinates) {
         DependencyCoordinates sourceCoordinates = dependencyCoordinatesCreator.create(source)
 
         componentCoordinates.each { coordinates ->
@@ -27,7 +27,7 @@ class DependencyBundle {
         }
     }
 
-    void addComponent(DependencyCoordinates source, DependencyCoordinates target) {
+    private void addComponent(DependencyCoordinates source, DependencyCoordinates target) {
         if(!components.containsKey(source)) {
             components[source] = [target] as Set
         }
@@ -35,12 +35,8 @@ class DependencyBundle {
         components[source] << target
     }
 
-    Set<DependencyCoordinates> getComponents(String sourceGroup) {
-        components.keySet().find { it.group == sourceGroup }
-    }
-
-    Set<DependencyCoordinates> getComponents(DependencyCoordinates source) {
-        components[source]
+    Map<DependencyCoordinates, Set<DependencyCoordinates>> getComponents() {
+        components
     }
 
     boolean hasMappings() {
