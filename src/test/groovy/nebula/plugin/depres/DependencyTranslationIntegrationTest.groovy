@@ -25,7 +25,7 @@ class DependencyTranslationIntegrationTest extends DependencyResolutionIntegrati
         buildFile << """
 dependencyResolution {
     translate {
-        map('my.group', 'some.other.group')
+        map 'my.group', 'some.other.group'
     }
 }
 """
@@ -43,7 +43,7 @@ myConf
         buildFile << """
 dependencyResolution {
     translate {
-        map('', '')
+        map '', ''
     }
 }
 """
@@ -59,7 +59,7 @@ dependencyResolution {
         buildFile << """
 dependencyResolution {
     translate {
-        map('my.group', 'some.other.group:changed:5.5:sources')
+        map 'my.group', 'some.other.group:changed:5.5:sources'
     }
 }
 """
@@ -95,7 +95,7 @@ dependencyResolution {
         buildFile << """
 dependencyResolution {
     translate {
-        map('$sourceCoordinates', '$targetCoordinates')
+        map '$sourceCoordinates', '$targetCoordinates'
     }
 }
 """
@@ -123,7 +123,7 @@ ext.targetCoordinates = [$targetCoordinates] as Map<String, String>
 
 dependencyResolution {
     translate {
-        map(sourceCoordinates, targetCoordinates)
+        map sourceCoordinates, targetCoordinates
     }
 }
 """
