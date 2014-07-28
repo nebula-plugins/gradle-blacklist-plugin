@@ -15,10 +15,10 @@
  */
 package nebula.plugin.blacklist
 
-import org.gradle.api.GradleException
-
-class BlacklistedDependencyDeclarationException extends GradleException {
-    BlacklistedDependencyDeclarationException(String s) {
-        super(s)
+class MandatoryDependencyCoordinates extends DependencyCoordinates {
+    MandatoryDependencyCoordinates(String group, String name, String version) {
+        super(group, name, version)
+        assert name != null, 'Name attribute may not be null'
+        assert version != null, 'Version attribute may not be null'
     }
 }

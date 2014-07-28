@@ -15,10 +15,6 @@
  */
 package nebula.plugin.blacklist
 
-import org.gradle.api.GradleException
+class DependencyBundle {
 
-class BlacklistedDependencyDeclarationException extends GradleException {
-    BlacklistedDependencyDeclarationException(String s) {
-        super(s)
-    }
 }

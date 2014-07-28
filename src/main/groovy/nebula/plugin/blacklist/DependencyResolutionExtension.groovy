@@ -20,6 +20,7 @@ import org.gradle.util.ConfigureUtil
 class DependencyResolutionExtension {
     DependencyTranslation translation = new DependencyTranslation()
     DependencyBlacklist blacklist = new DependencyBlacklist()
+    DependencyBundle bundle = new DependencyBundle()
 
     void translate(Closure closure) {
         ConfigureUtil.configure(closure, translation)
@@ -27,5 +28,9 @@ class DependencyResolutionExtension {
 
     void blacklist(Closure closure) {
         ConfigureUtil.configure(closure, blacklist)
+    }
+
+    void bundle(Closure closure) {
+        ConfigureUtil.configure(closure, bundle)
     }
 }
