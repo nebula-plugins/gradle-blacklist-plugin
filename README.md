@@ -1,7 +1,7 @@
-gradle-blacklist-plugin
+Gradle Blacklist Plugin
 ==============
 
-Gradle plugin for providing dependency resolution correction rules
+Gradle plugin for providing dependency resolution correction rules.
 
 ## Usage
 
@@ -10,19 +10,102 @@ Gradle plugin for providing dependency resolution correction rules
 To include, add the following to your build.gradle
 
     buildscript {
-      repositories { jcenter() }
+        repositories { 
+            jcenter() 
+        }
 
-      dependencies {
-        classpath 'com.netflix.nebula:gradle-blacklist-plugin:1.12.+'
-      }
+        dependencies {
+            classpath 'com.netflix.nebula:gradle-dependency-resolution-plugin:1.12.+'
+        }
     }
 
-    apply plugin: 'blacklist'
+    apply plugin: 'dependency-resolution'
 
-### Tasks Provided
+### Dependency corrections
 
-`<your tasks>`
+Dependencies for a Gradle project are defined per build script. It's the user's responsibility to declare and manage the 
+list of dependencies. On an organizational level, you might want to enforce certain governance, for example:
 
-### Extensions Provided
+* Map declared dependency coordinates to different coordinates.
+* Prevent users from declaring dependencies with specific coordinates.
+* Replace dependency bundles that combine multiple artifacts as Uber-JAR and define replacement dependencies for it.
 
-`<your extensions>`
+Having to deal with these dependency corrections across hundreds or even thousands of projects is almost impossible if
+ done manually. Instead you can define dependency corrections centrally for all projects using this plugin. The easiest
+ way to achieve this goal is to write your own enterprise-wide plugin that defines the desired dependency corrections. 
+ Every Gradle project in your organization would have to apply this plugin. You might also want to force the use of the
+  plugin with the help of an init script or a custom Gradle distribution.
+
+#### Changing coordinates
+
+Over time the coordinates of a dependency might change. A typical example is when the organization name was changed and
+the artifact is published with the new coordinates. Artifact consumers will either have to directly change the coordinates
+ in the build script. A more convenient alternative is to declare the mapping of changed coordinates and let Gradle do the
+ heavy lifting.
+
+##### API
+
+Dependency coordinates can be mapped to a different set of coordinates as part of the `translate` closure. Coordinates
+can be defined as `String` or `Map`. At the very least the declared dependency notation needs to provide the `group`
+attribute. The attributes `name` and `version` are optional. The API exposes the following methods:
+
+    void map(String source, String target)
+    void map(Map<String, String> source, Map<String, String> target)
+
+##### Example
+
+    dependencyResolution {
+        translate {
+            map 'nebula', 'com.netflix.nebula'
+            map 'commons-lang:commons-lang:2.6', 'org.apache.commons:commons-lang3:3.3.2'
+        }
+    }
+
+#### Bad coordinates
+
+Sometime you want to prevent to use of dependencies with specific coordinates. They might have a certain defect, for 
+ example transitive dependencies in their metadata do not resolve correctly. With the help of the plugin you can either 
+ suppress the use of dependencies or warn the user about them. If Gradle encounters a suppressed dependency, it will 
+ automatically throw an exception. If a dependency is flagged as potentially "bad", the user is warned by a log message.
+
+##### API
+
+Coordinates can be defined as `String` or `Map`. The API exposes the following methods:
+
+    void suppress(String target)
+    void suppress(Map<String, String> target)
+    void warn(String target)
+    void warn(Map<String, String> target)
+
+##### Example
+
+    dependencyResolution {
+        blacklist {
+            suppress 'org.foo:bar:3.4'
+            warn group: 'com.company', name: 'baz', version: '1.2'
+        }
+    }
+
+#### Replacing bundles
+
+Dependency bundles combine classes of multiple JAR files into a single Uber-JAR. While this practice is acceptable for
+classes from several modules with the same version, it's considered an anti-pattern if the artifact combines classes 
+from other artifacts produced by other projects. Consuming such a bundle strips you of the capability to successfully
+apply any dependency conflict resolution as the notion of their coordinates is lost. This plugin let's you replace a 
+dependency bundle with a set of well-defined constituent artifacts.
+
+##### API
+
+Coordinates can be defined as `String`. The API exposes the following methods:
+
+    void replace(String source, Collection targets)
+
+##### Example
+
+    dependencyResolution {
+        bundle {
+            replace 'com.eclipsesource.jaxrs:jersey-all:2.10.1', ['org.glassfish.jersey:jersey-common:2.10.1', 
+                                                                  'org.glassfish.jersey:jersey-client:2.10.1', 
+                                                                  'org.glassfish.jersey:jersey-server:2.10.1']
+        }
+    }
