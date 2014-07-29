@@ -17,14 +17,18 @@ package nebula.plugin.dependencyresolution
 
 import nebula.test.functional.ExecutionResult
 import org.apache.commons.lang.exception.ExceptionUtils
+import spock.lang.Unroll
 
 class DependencyBlacklistIntegrationTest extends DependencyResolutionIntegrationSpec {
-    def "Declares suppressed dependency but it doesn't match any dependency"() {
+    @Unroll
+    def "Declares suppressed dependency #dependencyNotation with type #type but it doesn't match any dependency"() {
         when:
         buildFile << """
+ext.suppressedDependency = $dependencyNotation as $type
+
 dependencyResolution {
     blacklist {
-        suppress 'my.group:awesome:3.4'
+        suppress suppressedDependency
     }
 }
 """
@@ -34,14 +38,22 @@ dependencyResolution {
         result.standardOutput.contains("""
 myConf
 \\--- com.company:important:1.0""")
+
+        where:
+        dependencyNotation                                     | type
+        "'my.group:awesome:3.4'"                               | 'java.lang.String'
+        "[group: 'my.group', name: 'awesome', version: '3.4']" | 'java.util.Map'
     }
 
-    def "Suppressed dependency matches declared dependency"() {
+    @Unroll
+    def "Suppressed dependency #dependencyNotation with type #type matches declared dependency"() {
         when:
         buildFile << """
+ext.suppressedDependency = $dependencyNotation as $type
+
 dependencyResolution {
     blacklist {
-        suppress 'com.company:important:1.0'
+        suppress suppressedDependency
     }
 }
 """
@@ -50,14 +62,22 @@ dependencyResolution {
         then:
         Throwable rootCause = ExceptionUtils.getRootCause(result.failure)
         rootCause.message == "Dependency 'com.company:important:1.0' is blacklisted. Please pick different coordinates."
+
+        where:
+        dependencyNotation                                          | type
+        "'com.company:important:1.0'"                               | 'java.lang.String'
+        "[group: 'com.company', name: 'important', version: '1.0']" | 'java.util.Map'
     }
 
-    def "Declares future blacklisted dependency but it doesn't match any dependency"() {
+    @Unroll
+    def "Declares future blacklisted dependency #dependencyNotation with type #type but it doesn't match any dependency"() {
         when:
         buildFile << """
+ext.suppressedDependency = $dependencyNotation as $type
+
 dependencyResolution {
     blacklist {
-        warn 'my.group:awesome:3.4'
+        warn suppressedDependency
     }
 }
 """
@@ -67,14 +87,22 @@ dependencyResolution {
         result.standardOutput.contains("""
 myConf
 \\--- com.company:important:1.0""")
+
+        where:
+        dependencyNotation                                     | type
+        "'my.group:awesome:3.4'"                               | 'java.lang.String'
+        "[group: 'my.group', name: 'awesome', version: '3.4']" | 'java.util.Map'
     }
 
-    def "Future blacklisted dependency matches declared dependency"() {
+    @Unroll
+    def "Future blacklisted dependency #dependencyNotation with type #type matches declared dependency"() {
         when:
         buildFile << """
+ext.suppressedDependency = $dependencyNotation as $type
+
 dependencyResolution {
     blacklist {
-        warn 'com.company:important:1.0'
+        warn suppressedDependency
     }
 }
 """
@@ -85,5 +113,10 @@ dependencyResolution {
 myConf
 \\--- com.company:important:1.0""")
         result.standardOutput.contains("Dependency 'com.company:important:1.0' is flagged as potential issue. It might get blacklisted in the future.")
+
+        where:
+        dependencyNotation                                          | type
+        "'com.company:important:1.0'"                               | 'java.lang.String'
+        "[group: 'com.company', name: 'important', version: '1.0']" | 'java.util.Map'
     }
 }
