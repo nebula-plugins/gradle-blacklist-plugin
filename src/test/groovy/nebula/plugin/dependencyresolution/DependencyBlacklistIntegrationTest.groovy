@@ -24,11 +24,11 @@ class DependencyBlacklistIntegrationTest extends DependencyResolutionIntegration
     def "Declares suppressed dependency #dependencyNotation with type #type but it doesn't match any dependency"() {
         when:
         buildFile << """
-ext.suppressedDependency = $dependencyNotation as $type
+ext.blacklistedDependency = $dependencyNotation as $type
 
 dependencyResolution {
     blacklist {
-        suppress suppressedDependency
+        suppress blacklistedDependency
     }
 }
 """
@@ -49,11 +49,11 @@ myConf
     def "Suppressed dependency #dependencyNotation with type #type matches declared dependency"() {
         when:
         buildFile << """
-ext.suppressedDependency = $dependencyNotation as $type
+ext.blacklistedDependency = $dependencyNotation as $type
 
 dependencyResolution {
     blacklist {
-        suppress suppressedDependency
+        suppress blacklistedDependency
     }
 }
 """
@@ -73,11 +73,11 @@ dependencyResolution {
     def "Declares future blacklisted dependency #dependencyNotation with type #type but it doesn't match any dependency"() {
         when:
         buildFile << """
-ext.suppressedDependency = $dependencyNotation as $type
+ext.blacklistedDependency = $dependencyNotation as $type
 
 dependencyResolution {
     blacklist {
-        warn suppressedDependency
+        warn blacklistedDependency
     }
 }
 """
@@ -98,11 +98,11 @@ myConf
     def "Future blacklisted dependency #dependencyNotation with type #type matches declared dependency"() {
         when:
         buildFile << """
-ext.suppressedDependency = $dependencyNotation as $type
+ext.blacklistedDependency = $dependencyNotation as $type
 
 dependencyResolution {
     blacklist {
-        warn suppressedDependency
+        warn blacklistedDependency
     }
 }
 """
