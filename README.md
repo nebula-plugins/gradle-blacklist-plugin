@@ -35,6 +35,9 @@ Having to deal with these dependency corrections across hundreds or even thousan
  way to achieve this goal is to write your own enterprise-wide plugin that defines the desired dependency corrections. 
  Every Gradle project in your organization would have to apply this plugin. You might also want to force the use of the
   plugin with the help of an init script or a custom Gradle distribution.
+  
+  Dependency correction rules are not limited to a specific configuration. They apply to all configurations available in
+  the project.
 
 #### Changing coordinates
 
