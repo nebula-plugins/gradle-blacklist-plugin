@@ -31,6 +31,14 @@ class DependencyBundle {
         }
     }
 
+    void replace(Map<String, String> source, Collection componentCoordinates) {
+        DependencyCoordinates sourceCoordinates = dependencyCoordinatesCreator.create(source)
+
+        componentCoordinates.each { coordinates ->
+            addComponent(sourceCoordinates, dependencyCoordinatesCreator.create(coordinates))
+        }
+    }
+
     private void addComponent(DependencyCoordinates source, DependencyCoordinates target) {
         if(!components.containsKey(source)) {
             components[source] = [target] as Set

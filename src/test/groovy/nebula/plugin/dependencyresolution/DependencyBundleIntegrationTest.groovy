@@ -16,14 +16,18 @@
 package nebula.plugin.dependencyresolution
 
 import nebula.test.functional.ExecutionResult
+import spock.lang.Unroll
 
 class DependencyBundleIntegrationTest extends DependencyResolutionIntegrationSpec {
-    def "Declares bundle but it doesn't match any dependency"() {
+    @Unroll
+    def "Declares bundle #sourceBundle with type #type but it doesn't match any dependency"() {
         when:
         buildFile << """
+ext.sourceBundle = $sourceBundle as $type
+
 dependencyResolution {
     bundle {
-        replace 'my.group:awesome:3.4', ['my.group:awesome:3.6', 'org.company:piece1:1.2', 'com.enterprise:piece2:0.5']
+        replace sourceBundle, ['my.group:awesome:3.6', 'org.company:piece1:1.2', 'com.enterprise:piece2:0.5']
     }
 }
 """
@@ -33,14 +37,23 @@ dependencyResolution {
         result.standardOutput.contains("""
 myConf
 \\--- com.company:important:1.0""")
+
+        where:
+        sourceBundle                                           | type
+        "'my.group:awesome:3.4'"                               | 'java.lang.String'
+        "[group: 'my.group', name: 'awesome', version: '3.4']" | 'java.util.Map'
     }
 
-    def "Declares bundle replacement for matching dependency"() {
+    @Unroll
+    def "Declares bundle #sourceBundle with type #sourceType for matching dependency"() {
         when:
         buildFile << """
+ext.sourceBundle = $sourceBundle as $sourceType
+ext.targets = $targets as $targetType
+
 dependencyResolution {
     bundle {
-        replace 'com.company:important:1.0', ['my.group:awesome:3.6', 'org.company:piece1:1.2', 'com.enterprise:piece2:0.5']
+        replace sourceBundle, targets
     }
 }
 """
@@ -53,5 +66,10 @@ myConf
 +--- org.company:piece1:1.2 FAILED
 \\--- com.enterprise:piece2:0.5 FAILED""")
         !result.standardOutput.contains('com.company:important:1.0')
+
+        where:
+        sourceBundle                                                | sourceType         | targets                                                                                                                                                                     | targetType
+        "'com.company:important:1.0'"                               | 'java.lang.String' | "['my.group:awesome:3.6', 'org.company:piece1:1.2', 'com.enterprise:piece2:0.5']"                                                                                           | 'java.util.Collection'
+        "[group: 'com.company', name: 'important', version: '1.0']" | 'java.util.Map'    | "[[group: 'my.group', name: 'awesome', version: '3.6'], [group: 'org.company', name: 'piece1', version: '1.2'], [group: 'com.enterprise', name: 'piece2', version: '0.5']]" | 'java.util.Collection'
     }
 }

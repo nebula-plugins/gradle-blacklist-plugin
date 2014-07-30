@@ -96,9 +96,10 @@ dependency bundle with a set of well-defined constituent artifacts.
 
 ##### API
 
-Coordinates can be defined as `String`. The API exposes the following methods:
+Coordinates can be defined as `String` or `Map`. The API exposes the following methods:
 
-    void replace(String source, Collection targets)
+    void replace(String sourceBundle, Collection targets)
+    void replace(Map<String, String> sourceBundle, Collection targets)
 
 ##### Example
 
