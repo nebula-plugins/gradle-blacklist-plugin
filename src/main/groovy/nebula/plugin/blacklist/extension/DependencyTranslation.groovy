@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution.extension
+package nebula.plugin.blacklist.extension
 
-import nebula.plugin.dependencyresolution.data.DependencyCoordinates
-import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreator
-import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreatorImpl
+import nebula.plugin.blacklist.data.DependencyCoordinates
+import nebula.plugin.blacklist.data.DependencyCoordinatesCreator
+import nebula.plugin.blacklist.data.DependencyCoordinatesCreatorImpl
 
 class DependencyTranslation {
     private final Map<DependencyCoordinates, DependencyCoordinates> changingCoordinatesMapping = new HashMap<DependencyCoordinates, DependencyCoordinates>()

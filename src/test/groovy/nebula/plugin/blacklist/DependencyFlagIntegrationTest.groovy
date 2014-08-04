@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution
+package nebula.plugin.blacklist
 
 import nebula.test.functional.ExecutionResult
 import org.apache.commons.lang.exception.ExceptionUtils
 import spock.lang.Unroll
 
-class DependencyBlacklistIntegrationTest extends DependencyResolutionIntegrationSpec {
+class DependencyFlagIntegrationTest extends DependencyResolutionIntegrationSpec {
     @Unroll
-    def "Declares suppressed dependency #dependencyNotation with type #type but it doesn't match any dependency"() {
+    def "Declares blocked dependency #dependencyNotation with type #type but it doesn't match any dependency"() {
         when:
         buildFile << """
 ext.blacklistedDependency = $dependencyNotation as $type
 
-dependencyResolution {
-    blacklist {
-        suppress blacklistedDependency
+blacklist {
+    flag {
+        block blacklistedDependency
     }
 }
 """
@@ -46,14 +46,14 @@ myConf
     }
 
     @Unroll
-    def "Suppressed dependency #dependencyNotation with type #type matches declared dependency"() {
+    def "Blocked dependency #dependencyNotation with type #type matches declared dependency"() {
         when:
         buildFile << """
 ext.blacklistedDependency = $dependencyNotation as $type
 
-dependencyResolution {
-    blacklist {
-        suppress blacklistedDependency
+blacklist {
+    flag {
+        block blacklistedDependency
     }
 }
 """
@@ -61,7 +61,7 @@ dependencyResolution {
 
         then:
         Throwable rootCause = ExceptionUtils.getRootCause(result.failure)
-        rootCause.message == "Dependency 'com.company:important:1.0' is blacklisted. Please pick different coordinates."
+        rootCause.message == "Dependency 'com.company:important:1.0' is blocked. Please pick different coordinates."
 
         where:
         dependencyNotation                                          | type
@@ -75,8 +75,8 @@ dependencyResolution {
         buildFile << """
 ext.blacklistedDependency = $dependencyNotation as $type
 
-dependencyResolution {
-    blacklist {
+blacklist {
+    flag {
         warn blacklistedDependency
     }
 }
@@ -100,8 +100,8 @@ myConf
         buildFile << """
 ext.blacklistedDependency = $dependencyNotation as $type
 
-dependencyResolution {
-    blacklist {
+blacklist {
+    flag {
         warn blacklistedDependency
     }
 }

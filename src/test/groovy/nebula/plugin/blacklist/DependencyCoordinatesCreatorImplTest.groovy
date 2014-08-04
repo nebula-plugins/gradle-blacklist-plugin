@@ -1,9 +1,9 @@
-package nebula.plugin.dependencyresolution
+package nebula.plugin.blacklist
 
-import nebula.plugin.dependencyresolution.data.DependencyCoordinates
-import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreator
-import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreatorImpl
-import nebula.plugin.dependencyresolution.exception.InvalidDependencyDeclarationException
+import nebula.plugin.blacklist.data.DependencyCoordinates
+import nebula.plugin.blacklist.data.DependencyCoordinatesCreator
+import nebula.plugin.blacklist.data.DependencyCoordinatesCreatorImpl
+import nebula.plugin.blacklist.exception.InvalidDependencyDeclarationException
 import spock.lang.Specification
 import spock.lang.Unroll
 

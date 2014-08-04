@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution
+package nebula.plugin.blacklist
 
 import nebula.test.functional.ExecutionResult
 import org.apache.commons.lang.exception.ExceptionUtils
@@ -23,7 +23,7 @@ class DependencyTranslationIntegrationTest extends DependencyResolutionIntegrati
     def "Declares change mapping but it doesn't match any dependency"() {
         when:
         buildFile << """
-dependencyResolution {
+blacklist {
     translate {
         map 'my.group', 'some.other.group'
     }
@@ -41,7 +41,7 @@ myConf
     def "Throws exception if change mapping uses empty String attributes"() {
         when:
         buildFile << """
-dependencyResolution {
+blacklist {
     translate {
         map '', ''
     }
@@ -57,7 +57,7 @@ dependencyResolution {
     def "Throws exception if change mapping uses invalid String attributes"() {
         when:
         buildFile << """
-dependencyResolution {
+blacklist {
     translate {
         map 'my.group', 'some.other.group:changed:5.5:sources'
     }
@@ -76,7 +76,7 @@ dependencyResolution {
 ext.sourceCoordinates = [unknownAttribute: '1'] as Map<String, String>
 ext.targetCoordinates = [some: 'attribute'] as Map<String, String>
 
-dependencyResolution {
+blacklist {
     translate {
         map(sourceCoordinates, targetCoordinates)
     }
@@ -93,7 +93,7 @@ dependencyResolution {
     def "Declares change mapping for matching String coordinates ('#targetCoordinates')"() {
         when:
         buildFile << """
-dependencyResolution {
+blacklist {
     translate {
         map '$sourceCoordinates', '$targetCoordinates'
     }
@@ -121,7 +121,7 @@ myConf
 ext.sourceCoordinates = [$sourceCoordinates] as Map<String, String>
 ext.targetCoordinates = [$targetCoordinates] as Map<String, String>
 
-dependencyResolution {
+blacklist {
     translate {
         map sourceCoordinates, targetCoordinates
     }

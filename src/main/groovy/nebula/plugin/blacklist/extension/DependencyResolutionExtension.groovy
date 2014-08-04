@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution
+package nebula.plugin.blacklist.extension
 
-import nebula.test.IntegrationSpec
+import org.gradle.util.ConfigureUtil
 
-class DependencyResolutionIntegrationSpec extends IntegrationSpec {
-    def setup() {
-        buildFile << """
-apply plugin: 'dependency-resolution'
+class DependencyResolutionExtension {
+    DependencyTranslation translation = new DependencyTranslation()
+    DependencyFlag flag = new DependencyFlag()
+    DependencyBundle bundle = new DependencyBundle()
 
-configurations {
-    myConf
-}
+    void translate(Closure closure) {
+        ConfigureUtil.configure(closure, translation)
+    }
 
-dependencies {
-    myConf 'com.company:important:1.0'
-}
-"""
+    void flag(Closure closure) {
+        ConfigureUtil.configure(closure, flag)
+    }
+
+    void bundle(Closure closure) {
+        ConfigureUtil.configure(closure, bundle)
     }
 }

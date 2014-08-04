@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution
+package nebula.plugin.blacklist
 
-import nebula.plugin.dependencyresolution.data.DependencyCoordinates
-import nebula.plugin.dependencyresolution.exception.BlacklistedDependencyDeclarationException
-import nebula.plugin.dependencyresolution.extension.DependencyResolutionExtension
+import nebula.plugin.blacklist.data.DependencyCoordinates
+import nebula.plugin.blacklist.exception.BlockedDependencyDeclarationException
+import nebula.plugin.blacklist.extension.DependencyResolutionExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Configuration
@@ -25,8 +25,8 @@ import org.gradle.api.artifacts.DependencyResolveDetails
 import org.gradle.api.artifacts.ExternalModuleDependency
 import org.gradle.api.artifacts.ResolutionStrategy
 
-class DependencyResolutionPlugin implements Plugin<Project> {
-    static final String EXTENSION_NAME = 'dependencyResolution'
+class DependencyBlacklistPlugin implements Plugin<Project> {
+    static final String EXTENSION_NAME = 'blacklist'
 
     @Override
     void apply(Project project) {
@@ -34,7 +34,7 @@ class DependencyResolutionPlugin implements Plugin<Project> {
 
         project.afterEvaluate {
             changeDependencyCoordinates(project, extension)
-            backlistDependencies(project, extension)
+            flagDependencies(project, extension)
             replaceBundles(project, extension)
         }
     }
@@ -69,17 +69,17 @@ class DependencyResolutionPlugin implements Plugin<Project> {
         modifiedCoordinates
     }
 
-    private void backlistDependencies(Project project, DependencyResolutionExtension extension) {
-        if(extension.blacklist.hasMappings()) {
+    private void flagDependencies(Project project, DependencyResolutionExtension extension) {
+        if(extension.flag.hasMappings()) {
             project.configurations.all { Configuration configuration ->
                 def externalDependencies = configuration.dependencies.findAll { it instanceof ExternalModuleDependency }
 
                 externalDependencies.each { dependency ->
                     DependencyCoordinates dependencyCoordinates = new DependencyCoordinates(dependency.group, dependency.name, dependency.version)
 
-                    if (extension.blacklist.containsSuppressed(dependencyCoordinates)) {
-                        throw new BlacklistedDependencyDeclarationException("Dependency '$dependencyCoordinates' is blacklisted. Please pick different coordinates.")
-                    } else if (extension.blacklist.containsWarned(dependencyCoordinates)) {
+                    if(extension.flag.containsBlocked(dependencyCoordinates)) {
+                        throw new BlockedDependencyDeclarationException("Dependency '$dependencyCoordinates' is blocked. Please pick different coordinates.")
+                    } else if (extension.flag.containsWarned(dependencyCoordinates)) {
                         project.logger.warn "Dependency '$dependencyCoordinates' is flagged as potential issue. It might get blacklisted in the future."
                     }
                 }

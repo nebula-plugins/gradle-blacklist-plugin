@@ -15,11 +15,11 @@ To include, add the following to your build.gradle
         }
 
         dependencies {
-            classpath 'com.netflix.nebula:gradle-dependency-resolution-plugin:1.12.+'
+            classpath 'com.netflix.nebula:gradle-blacklist-plugin:1.12.+'
         }
     }
 
-    apply plugin: 'dependency-resolution'
+    apply plugin: 'blacklist'
 
 ### Dependency corrections
 
@@ -57,7 +57,7 @@ attribute. The attributes `name` and `version` are optional. The API exposes the
 
 ##### Example
 
-    dependencyResolution {
+    blacklist {
         translate {
             map 'nebula', 'com.netflix.nebula'
             map 'commons-lang:commons-lang:2.6', 'org.apache.commons:commons-lang3:3.3.2'
@@ -75,16 +75,16 @@ Sometime you want to prevent to use of dependencies with specific coordinates. T
 
 Coordinates can be defined as `String` or `Map`. The API exposes the following methods:
 
-    void suppress(String target)
-    void suppress(Map<String, String> target)
+    void block(String target)
+    void block(Map<String, String> target)
     void warn(String target)
     void warn(Map<String, String> target)
 
 ##### Example
 
-    dependencyResolution {
-        blacklist {
-            suppress 'org.foo:bar:3.4'
+    blacklist {
+        flag {
+            block 'org.foo:bar:3.4'
             warn group: 'com.company', name: 'baz', version: '1.2'
         }
     }
@@ -106,7 +106,7 @@ Coordinates can be defined as `String` or `Map`. The API exposes the following m
 
 ##### Example
 
-    dependencyResolution {
+    blacklist {
         bundle {
             replace 'com.eclipsesource.jaxrs:jersey-all:2.10.1', ['org.glassfish.jersey:jersey-common:2.10.1', 
                                                                   'org.glassfish.jersey:jersey-client:2.10.1', 

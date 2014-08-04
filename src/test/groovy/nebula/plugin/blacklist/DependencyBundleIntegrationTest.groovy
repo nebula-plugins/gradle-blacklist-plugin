@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution
+package nebula.plugin.blacklist
 
 import nebula.test.functional.ExecutionResult
 import spock.lang.Unroll
@@ -25,7 +25,7 @@ class DependencyBundleIntegrationTest extends DependencyResolutionIntegrationSpe
         buildFile << """
 ext.sourceBundle = $sourceBundle as $type
 
-dependencyResolution {
+blacklist {
     bundle {
         replace sourceBundle, ['my.group:awesome:3.6', 'org.company:piece1:1.2', 'com.enterprise:piece2:0.5']
     }
@@ -51,7 +51,7 @@ myConf
 ext.sourceBundle = $sourceBundle as $sourceType
 ext.targets = $targets as $targetType
 
-dependencyResolution {
+blacklist {
     bundle {
         replace sourceBundle, targets
     }

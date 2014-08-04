@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution.data
+package nebula.plugin.blacklist.data
 
-import nebula.plugin.dependencyresolution.exception.InvalidDependencyDeclarationException
+import nebula.plugin.blacklist.exception.InvalidDependencyDeclarationException
 
 class DependencyCoordinatesCreatorImpl implements DependencyCoordinatesCreator {
     @Override

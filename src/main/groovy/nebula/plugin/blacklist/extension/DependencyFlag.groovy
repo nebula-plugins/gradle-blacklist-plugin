@@ -13,27 +13,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution.extension
+package nebula.plugin.blacklist.extension
 
-import nebula.plugin.dependencyresolution.data.DependencyCoordinates
-import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreator
-import nebula.plugin.dependencyresolution.data.DependencyCoordinatesCreatorImpl
+import nebula.plugin.blacklist.data.DependencyCoordinates
+import nebula.plugin.blacklist.data.DependencyCoordinatesCreator
+import nebula.plugin.blacklist.data.DependencyCoordinatesCreatorImpl
 
-class DependencyBlacklist {
-    private final Set<DependencyCoordinates> suppressed = new HashSet<DependencyCoordinates>()
+class DependencyFlag {
+    private final Set<DependencyCoordinates> blocked = new HashSet<DependencyCoordinates>()
     private final Set<DependencyCoordinates> warned = new HashSet<DependencyCoordinates>()
     private final DependencyCoordinatesCreator dependencyCoordinatesCreator = new DependencyCoordinatesCreatorImpl()
 
-    void suppress(String coordinates) {
-        suppressed << dependencyCoordinatesCreator.create(coordinates)
+    void block(String coordinates) {
+        blocked << dependencyCoordinatesCreator.create(coordinates)
     }
 
-    void suppress(Map<String, String> coordinates) {
-        suppressed << dependencyCoordinatesCreator.create(coordinates)
+    void block(Map<String, String> coordinates) {
+        blocked << dependencyCoordinatesCreator.create(coordinates)
     }
 
-    boolean containsSuppressed(DependencyCoordinates target) {
-        suppressed.contains(target)
+    boolean containsBlocked(DependencyCoordinates target) {
+        blocked.contains(target)
     }
 
     void warn(String coordinates) {
@@ -49,6 +49,6 @@ class DependencyBlacklist {
     }
 
     boolean hasMappings() {
-        !suppressed.isEmpty() || !warned.isEmpty()
+        !blocked.isEmpty() || !warned.isEmpty()
     }
 }

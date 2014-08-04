@@ -13,9 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution.data
+package nebula.plugin.blacklist.data
 
-interface DependencyCoordinatesCreator {
-    DependencyCoordinates create(String coordinates)
-    DependencyCoordinates create(Map<String, String> coordinates)
+class MandatoryDependencyCoordinates extends DependencyCoordinates {
+    MandatoryDependencyCoordinates(String group, String name, String version) {
+        super(group, name, version)
+        assert name != null, 'Name attribute may not be null'
+        assert version != null, 'Version attribute may not be null'
+    }
 }

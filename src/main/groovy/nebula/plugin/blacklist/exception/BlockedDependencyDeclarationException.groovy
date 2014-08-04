@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution.data
+package nebula.plugin.blacklist.exception
 
-class MandatoryDependencyCoordinates extends DependencyCoordinates {
-    MandatoryDependencyCoordinates(String group, String name, String version) {
-        super(group, name, version)
-        assert name != null, 'Name attribute may not be null'
-        assert version != null, 'Version attribute may not be null'
+import org.gradle.api.GradleException
+
+class BlockedDependencyDeclarationException extends GradleException {
+    BlockedDependencyDeclarationException(String s) {
+        super(s)
     }
 }

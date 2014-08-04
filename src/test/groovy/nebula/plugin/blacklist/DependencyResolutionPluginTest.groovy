@@ -13,24 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution.extension
+package nebula.plugin.blacklist
 
-import org.gradle.util.ConfigureUtil
+import nebula.test.PluginProjectSpec
 
-class DependencyResolutionExtension {
-    DependencyTranslation translation = new DependencyTranslation()
-    DependencyBlacklist blacklist = new DependencyBlacklist()
-    DependencyBundle bundle = new DependencyBundle()
-
-    void translate(Closure closure) {
-        ConfigureUtil.configure(closure, translation)
+class DependencyResolutionPluginTest extends PluginProjectSpec {
+    @Override
+    String getPluginName() {
+        'blacklist'
     }
 
-    void blacklist(Closure closure) {
-        ConfigureUtil.configure(closure, blacklist)
-    }
+    def "Can use extension but not declare any rules"() {
+        when:
+        project.apply plugin: pluginName
 
-    void bundle(Closure closure) {
-        ConfigureUtil.configure(closure, bundle)
+        project.blacklist {}
+
+        then:
+        noExceptionThrown()
     }
 }

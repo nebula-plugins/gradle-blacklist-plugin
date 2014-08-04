@@ -13,23 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package nebula.plugin.dependencyresolution
+package nebula.plugin.blacklist
 
-import nebula.test.PluginProjectSpec
+import nebula.test.IntegrationSpec
 
-class DependencyResolutionPluginTest extends PluginProjectSpec {
-    @Override
-    String getPluginName() {
-        'dependency-resolution'
-    }
+class DependencyResolutionIntegrationSpec extends IntegrationSpec {
+    def setup() {
+        buildFile << """
+apply plugin: 'blacklist'
 
-    def "Can use extension but not declare any rules"() {
-        when:
-        project.apply plugin: pluginName
+configurations {
+    myConf
+}
 
-        project.dependencyResolution {}
-
-        then:
-        noExceptionThrown()
+dependencies {
+    myConf 'com.company:important:1.0'
+}
+"""
     }
 }
