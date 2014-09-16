@@ -15,6 +15,6 @@ contacts {
 }
 
 dependencies {
-    testCompile 'com.netflix.nebula:nebula-test:1.12.+'
+    testCompile 'com.netflix.nebula:nebula-test:2.0.+'
     testCompile 'org.apache.commons:commons-lang3:3.3.2'
 }
