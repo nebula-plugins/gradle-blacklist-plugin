@@ -52,7 +52,7 @@ dependencies {
     compile gradleApi()
     compile localGroovy()
     testCompile 'org.apache.commons:commons-lang3:3.3.2'
-    testCompile('com.netflix.nebula:nebula-test:2.0.0-SNAPSHOT') {
+    testCompile('com.netflix.nebula:nebula-test:2.2.0-SNAPSHOT') {
         exclude group: 'org.codehaus.groovy'
     }
 }
@@ -60,5 +60,5 @@ dependencies {
 test.exclude '**/*Local*'
 
 task createWrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = '2.2.1'
 }
