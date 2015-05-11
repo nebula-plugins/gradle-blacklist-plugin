@@ -15,7 +15,7 @@ To include, add the following to your build.gradle
         }
 
         dependencies {
-            classpath 'com.netflix.nebula:gradle-blacklist-plugin:1.12.+'
+            classpath 'com.netflix.nebula:gradle-blacklist-plugin:2.4.+'
         }
     }
 
