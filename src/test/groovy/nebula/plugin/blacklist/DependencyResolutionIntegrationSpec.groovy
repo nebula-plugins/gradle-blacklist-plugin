@@ -20,7 +20,7 @@ import nebula.test.IntegrationSpec
 class DependencyResolutionIntegrationSpec extends IntegrationSpec {
     def setup() {
         buildFile << """
-apply plugin: 'blacklist'
+apply plugin: 'nebula.blacklist'
 
 configurations {
     myConf

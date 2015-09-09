@@ -20,7 +20,7 @@ import nebula.test.PluginProjectSpec
 class DependencyResolutionPluginTest extends PluginProjectSpec {
     @Override
     String getPluginName() {
-        'blacklist'
+        'nebula.blacklist'
     }
 
     def "Can use extension but not declare any rules"() {
