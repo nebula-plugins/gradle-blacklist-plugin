@@ -20,11 +20,11 @@ To include, add the following to your build.gradle
         }
 
         dependencies {
-            classpath 'com.netflix.nebula:gradle-blacklist-plugin:1.12.+'
+            classpath 'com.netflix.nebula:gradle-blacklist-plugin:3.0.0'
         }
     }
 
-    apply plugin: 'blacklist'
+    apply plugin: 'nebula.blacklist'
 
 ### Dependency corrections
 
