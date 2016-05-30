@@ -31,7 +31,7 @@ contacts {
 }
 
 dependencies {
-    testCompile 'org.apache.commons:commons-lang3:3.3.2'
+    testCompile 'commons-lang:commons-lang:2.6'
 }
 
 pluginBundle {
