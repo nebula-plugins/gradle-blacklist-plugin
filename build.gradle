@@ -27,6 +27,10 @@ contacts {
         moniker 'Benjamin Muschko'
         github 'bmuschko'
     }
+    'salvianreynaldi@gmail.com' {
+        moniker 'Salvian Reynaldi'
+        github 'SalzzZ'
+    }
 }
 
 dependencies {
