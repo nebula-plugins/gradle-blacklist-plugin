@@ -52,7 +52,7 @@ class DependencyBlacklistPlugin implements Plugin<Project> {
     }
 
     private void useTargetIfMatching(DependencyResolutionExtension extension, DependencyResolveDetails details) {
-        DependencyCoordinates sourceDependencyCoordinates = extension.translation.getMapping(details.requested.group)
+        DependencyCoordinates sourceDependencyCoordinates = extension.translation.getMapping(details.requested.group, details.requested.name, details.requested.version)
 
         if(sourceDependencyCoordinates) {
             DependencyCoordinates targetDependencyCoordinates = extension.translation.getMapping(sourceDependencyCoordinates)
