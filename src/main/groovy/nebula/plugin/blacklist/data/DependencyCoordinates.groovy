@@ -35,8 +35,8 @@ class DependencyCoordinates {
         DependencyCoordinates that = (DependencyCoordinates) o
 
         if (group != that.group) return false
-        if (name != that.name) return false
-        if (version != that.version) return false
+        if (name != null && name != that.name) return false
+        if (version != null && version != that.version) return false
 
         return true
     }
