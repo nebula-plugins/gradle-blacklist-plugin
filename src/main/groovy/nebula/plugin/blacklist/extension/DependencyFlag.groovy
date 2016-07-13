@@ -33,7 +33,7 @@ class DependencyFlag {
     }
 
     boolean containsBlocked(DependencyCoordinates target) {
-        blocked.contains(target)
+        blocked.find { it.group.equals(target.group) && (it.name == null || it.name.equals(target.name)) && (it.version == null || it.version.equals(target.version))} != null
     }
 
     void warn(String coordinates) {
@@ -45,7 +45,7 @@ class DependencyFlag {
     }
 
     boolean containsWarned(DependencyCoordinates target) {
-        warned.contains(target)
+        warned.find { it.group.equals(target.group) && (it.name == null || it.name.equals(target.name)) && (it.version == null || it.version.equals(target.version))} != null
     }
 
     boolean hasMappings() {
