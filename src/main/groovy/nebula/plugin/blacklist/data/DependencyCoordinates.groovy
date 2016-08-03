@@ -28,6 +28,29 @@ class DependencyCoordinates {
     }
 
     @Override
+    boolean equals(o) {
+        if (this.is(o)) return true
+        if (getClass() != o.class) return false
+
+        DependencyCoordinates that = (DependencyCoordinates) o
+
+        if (group != that.group) return false
+        if (name != that.name) return false
+        if (version != that.version) return false
+
+        return true
+    }
+
+    @Override
+    int hashCode() {
+        int result
+        result = group.hashCode()
+        result = 31 * result + (name != null ? name.hashCode() : 0)
+        result = 31 * result + (version != null ? version.hashCode() : 0)
+        return result
+    }
+
+    @Override
     String toString() {
         StringBuilder coordinatesString = new StringBuilder()
         coordinatesString <<= group
