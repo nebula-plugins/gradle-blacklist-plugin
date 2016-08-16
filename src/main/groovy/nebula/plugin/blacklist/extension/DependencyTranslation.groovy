@@ -39,8 +39,8 @@ class DependencyTranslation {
         changingCoordinatesMapping[source] = target
     }
 
-    DependencyCoordinates getMapping(String sourceGroup) {
-        changingCoordinatesMapping.keySet().find { it.group == sourceGroup }
+    DependencyCoordinates getMapping(String sourceGroup, String sourceName, String sourceVersion) {
+        changingCoordinatesMapping.keySet().find { it.group == sourceGroup && (it.name == null || it.name == sourceName) && (it.version == null || it.version == sourceVersion)}
     }
 
     DependencyCoordinates getMapping(DependencyCoordinates source) {
