@@ -6,6 +6,11 @@ Gradle Blacklist Plugin
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/nebula-plugins/gradle-blacklist-plugin?utm_source=badgeutm_medium=badgeutm_campaign=pr-badge)
 [![Apache 2.0](https://img.shields.io/github/license/nebula-plugins/gradle-blacklist-plugin.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
+## Inactive
+
+Please look at the [gradle-resolution-rules-plugin](https://github.com/nebula-plugins/gradle-resolution-rules-plugin)
+
+---
 
 Gradle plugin for providing dependency resolution correction rules.
 
