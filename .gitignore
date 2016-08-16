@@ -4,3 +4,5 @@ build/
 *.ipr
 *.iml
 out
+gradle.properties
+
